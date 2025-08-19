@@ -9,26 +9,26 @@ export class Authservice{
         this.Client
         .setEndpoint(conf.appwriteUrl)
         .setProject(conf.appwriteProid);
-        this.Client = new Account(this.Client);
+        this.account = new Account(this.Client);
     }
 
-    async createAccount({email,passward,name}){
+    async createAccount({email,password,name}){
         try {
-           const userAccount = await this.account.create(ID.unique(),email,passward,name);
+           const userAccount = await this.account.create(ID.unique(),email,password,name);
            if (userAccount) {
-            return this.login({email,passward})
+            return this.login({email,password})
            }else{
             return userAccount;
            }
-        } catch (error) {
+        } catch (error) { 
             throw error;
-        }
+        }  
     }
-    async login ({email,passward}){
+    async login ({email,password}){
         try {
-           return await this.account.createEmailSession(email,passward)
+           return await this.account.createEmailSession(email,password)
         } catch (error) {
-            throw error;
+            throw error; 
         }
     }
 
