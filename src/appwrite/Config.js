@@ -2,30 +2,30 @@ import conf from '../conf/conf.js';
 import {Client,Databases,Storage,Query,ID} from "appwrite";
 
 export class Service {
-    clint = new Client();
+    client = new Client();
     databases;
     bucket;
 
     constructor(){
-        this.clint
+        this.client
         .setEndpoint(conf.appwriteUrl)
         .setProject(conf.appwriteProid);
-        this.databases = new Databases(this.clint)
-        this.buscket = new Storage(this.clint)
+        this.databases = new Databases(this.client)
+        this.bucket = new Storage(this.client)
     }
 
-    async createPost({title,slug,content,featuredImage,status,userId}){
+    async createPost({Title,slug,Content,Image,Status,userid}){
         try {
             return await this.databases.createDocument(
                 conf.appwriteDataid,
                 conf.appwriteColid,
                 slug,
                 {
-                    title,
-                    content,
-                    featuredImage,
-                    status,
-                    userId,
+                    Title,
+                    Content,
+                    Image,
+                    Status,
+                    userid,
                 }
             )
         } catch (error) {
@@ -33,17 +33,17 @@ export class Service {
         }
     }
 
-    async updatePost(slug, {title,content,featuredImage,status}){
+    async updatePost(slug, {Title,Content,Image,Status}){
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDataid,
                 conf.appwriteColid,
                 slug,
                 {
-                    title,
-                    content,
-                    featuredImage,
-                    status, 
+                    Title,
+                    Content,
+                    Image,
+                    Status,
                 }
             )
         } catch (error) {
@@ -77,7 +77,7 @@ export class Service {
              return false
         }
     }
-    async getPost(queries = [Query.equal("status","active")] ){
+    async getPosts(queries = [Query.equal("Status","active")] ){
         try {
             return await this.databases.listDocuments(
                  conf.appwriteDataid,
@@ -85,7 +85,7 @@ export class Service {
                 queries,
             ) 
         } catch (error) {
-            console.log("Appwrite service :: getPost :: error ", error);
+            console.log("Appwrite service :: getPosts :: error ", error);
              return false
         }
     }

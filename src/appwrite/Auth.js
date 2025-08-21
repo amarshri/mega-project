@@ -26,7 +26,7 @@ export class Authservice{
     }
     async login ({email,password}){
         try {
-           return await this.account.createEmailSession(email,password)
+           return await this.account.createEmailPasswordSession(email,password);
         } catch (error) {
             throw error; 
         }
@@ -36,17 +36,18 @@ export class Authservice{
         try {
             return await this.account.get();
         } catch (error) {
-            throw error;
+            console.log("Appwrite serive :: getCurrentUser :: error", error);
         }
-        return null;
+          return null;
+         
     }
 
 async logout(){
     try {
-        return await this.account.deleteSessions()
+        await this.account.deleteSessions()
     } catch (error) {
-        throw error;
-    }
+            console.log("Appwrite serive :: logout :: error", error);
+        }
 }
 
 
